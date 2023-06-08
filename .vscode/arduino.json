@@ -1,5 +1,6 @@
 {
     "board": "Infineon:arm:XMC1100_XMC2GO",
     "configuration": "UART=debug",
-    "port": "/dev/ttyACM0"
+    "port": "/dev/ttyACM0",
+    "sketch": "Blink.ino"
 }
