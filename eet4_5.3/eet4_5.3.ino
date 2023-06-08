@@ -5,12 +5,11 @@ int maxDelay;
 int minDelay;
 
 void setup() {
-  Serial.begin(9600);
-
   pinMode(0, INPUT);
   pinMode(1, INPUT);
   pinMode(6, INPUT);
-
+  pinMode(9, INPUT);
+  
   pinMode(3, OUTPUT);
   
   delaytime = 5000;
@@ -19,8 +18,9 @@ void setup() {
 
   maxDelay = 10000 / 180 * maxPhase;
   minDelay = 10000 / 180 * minPhase;
-}
 
+  attachInterrupt(digitalPinToInterrupt(9), phaseCut, RISING);
+}
 
 void loop() {
   if(digitalRead(0) == HIGH) delaytime += 10;
@@ -29,16 +29,12 @@ void loop() {
   if(delaytime > maxDelay) delaytime = maxDelay;
   if(delaytime < minDelay) delaytime = minDelay;
 
-  while(digitalRead(6) == LOW) {
-    delayMicroseconds(1);
-  }
+  delay(10);
+}
+
+void phaseCut() {
   delayMicroseconds(delaytime);
   digitalWrite(3, HIGH);
   delayMicroseconds(10);
   digitalWrite(3, LOW);
-  while(digitalRead(6) == HIGH) {
-    delayMicroseconds(1);
-  }
-
-  Serial.println(delaytime);
 }
